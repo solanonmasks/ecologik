@@ -73,14 +73,18 @@ import { STAGES, ROWS, PREVIEW } from '../data/content';
 
     <!-- GREEN STRIP -->
     <section class="bg-green text-ink">
-      <div
-        class="wrap flex flex-wrap justify-between gap-x-10 gap-y-2.5 py-[22px] text-[clamp(18px,1.5vw,22px)] font-medium"
-      >
-        <span>Plumbing and heating</span>
-        <span>Air-to-water heat pumps</span>
-        <span>HVAC</span>
-        <span>Gas fitting</span>
-        <span>Waterworks and splash parks</span>
+      <div class="wrap py-[22px]">
+        <div class="overflow-hidden">
+          <div
+            class="service-strip flex flex-wrap gap-y-1 text-[clamp(17px,1.5vw,22px)] leading-[1.5] font-medium xl:justify-between xl:gap-x-10"
+          >
+            <span>Plumbing and heating</span>
+            <span>Air-to-water heat pumps</span>
+            <span>HVAC</span>
+            <span>Gas fitting</span>
+            <span>Waterworks and splash parks</span>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -296,6 +300,32 @@ import { STAGES, ROWS, PREVIEW } from '../data/content';
   @media (min-width: 700px) {
     .hero {
       min-height: min(calc(100vh - 88px), 1000px);
+    }
+  }
+
+  /* Green service strip: on phones and tablets the items flow left to right
+     with small dots between them. Every item has a dot on its left; the strip
+     is shifted left so any dot that starts a new line is hidden. On wide
+     screens the items spread across one line with no dots. */
+  @media (max-width: 1139px) {
+    .service-strip {
+      margin-left: -28px;
+    }
+    .service-strip > span {
+      position: relative;
+      padding-left: 28px;
+    }
+    .service-strip > span::before {
+      content: '';
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      width: 5px;
+      height: 5px;
+      margin-top: -2px;
+      background: currentColor;
+      border-radius: 50%;
+      opacity: 0.55;
     }
   }
 
