@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import { img } from '../data/images';
+
+const TEAM = [
+  {
+    name: 'Daniel Cintora',
+    role: 'Founder and CEO',
+    bio: 'Daniel is a plumbing professional with fourteen years of experience serving general contractors on the North Shore and beyond. When he’s not on a mechanical install, he’s snowboarding, biking, camping or hiking.',
+  },
+  {
+    name: 'Jocelyn Greer',
+    role: 'Project Manager',
+    bio: 'Jocelyn has over 10 years of experience in commercial construction. At Ecologik she brings her management expertise to make sure every project runs smoothly. Off the job she hikes the North Shore with her husband, two kids and their dog.',
+  },
+];
+---
+
+<Base
+  title="About | A small North Vancouver team on every job | Ecologik"
+  description="Ecologik is a North Vancouver mechanical and waterworks contractor led by Daniel Cintora and Jocelyn Greer, focused on custom homes, renovations and efficient, sustainable properties."
+>
+  <main>
+    <section
+      class="wrap grid items-center gap-x-24 gap-y-12 py-[clamp(64px,8vw,128px)]"
+      style="grid-template-columns:repeat(auto-fit,minmax(min(100%,480px),1fr))"
+    >
+      <div class="flex flex-col gap-[22px]">
+        <h1 class="m-0 text-[clamp(56px,7vw,124px)] leading-[0.92] font-extralight tracking-[-0.04em]">
+          A small team, <span class="accent">on every job.</span>
+        </h1>
+        <p class="m-0 text-[20px] text-cream-2">
+          Ecologik is a North Vancouver mechanical and waterworks contractor. We specialize in custom homes and high-end
+          renovations, along with small commercial and waterworks projects, and we focus on efficient, sustainable
+          properties.
+        </p>
+      </div>
+      <div class="aspect-[3/4] max-h-[780px] overflow-hidden">
+        <img src={img('tub', 1400)} alt="Freestanding tub under a window" class="h-full w-full object-cover" />
+      </div>
+    </section>
+
+    <section class="bg-stone text-night">
+      <div
+        class="wrap grid gap-x-24 gap-y-14 py-[clamp(72px,9vw,128px)]"
+        style="grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr))"
+      >
+        {
+          TEAM.map((p) => (
+            <div class="flex flex-col gap-3.5 border-t-[3px] border-night pt-7">
+              <h2 class="m-0 text-[clamp(40px,4vw,68px)] leading-none font-light tracking-[-0.035em]">{p.name}</h2>
+              <span class="text-[18px] font-semibold text-green-text">{p.role}</span>
+              <p class="m-0 text-[19px] text-ink-2">{p.bio}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</Base>

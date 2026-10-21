@@ -1,0 +1,421 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../data/site';
+import { img } from '../data/images';
+import { STAGES, ROWS, PREVIEW } from '../data/content';
+---
+
+<Base
+  title="Ecologik | Plumbing, heating and air-to-water for custom homes | North Vancouver"
+  description="North Vancouver mechanical contractor. Plumbing, heating, HVAC, air-to-water and gas fitting for custom homes, high-end renovations and small commercial, plus waterworks across BC."
+>
+  <main>
+    <!-- HERO -->
+    <section class="hero relative flex flex-col justify-end overflow-hidden bg-deep">
+      <img
+        src={img('kitchen', 2400)}
+        alt="Custom home kitchen with a wood ceiling"
+        fetchpriority="high"
+        class="absolute inset-0 h-full w-full object-cover"
+        style="object-position:50% 35%"
+      />
+      <div
+        class="absolute inset-0"
+        style="background:linear-gradient(90deg,rgba(10,12,10,0.92) 0%,rgba(10,12,10,0.7) 40%,rgba(10,12,10,0.15) 75%),linear-gradient(0deg,rgba(10,12,10,0.85) 0%,rgba(10,12,10,0) 45%)"
+      >
+      </div>
+      <div
+        class="wrap relative grid w-full items-end gap-x-16 gap-y-10 pt-[clamp(72px,10vw,140px)] pb-[clamp(40px,5vw,72px)] lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]"
+      >
+        <div class="flex flex-col gap-[clamp(22px,2.4vw,32px)]">
+          <span class="eyebrow text-green-light">North Vancouver · Mechanical contractor</span>
+          <h1
+            class="m-0 text-[clamp(52px,7.4vw,132px)] leading-[0.94] font-extralight tracking-[-0.04em] text-balance text-white"
+          >
+            The mechanical behind <span class="accent">beautiful homes.</span>
+          </h1>
+          <p class="m-0 max-w-[34em] text-[clamp(18px,1.4vw,21px)] leading-[1.55] text-cream-2">
+            Plumbing, heating, HVAC and gas for custom homes, high-end renovations and small commercial builds across
+            the North Shore and Lower Mainland.
+          </p>
+          <div class="flex flex-wrap gap-2.5">
+            <a href="/contact" class="btn btn-green">Request a Quote</a>
+            <a href={SITE.phoneHref} class="btn btn-outline">Call {SITE.phone}</a>
+          </div>
+        </div>
+
+        <a
+          href="/services"
+          class="hidden w-[min(100%,400px)] justify-self-end border-t-4 border-green bg-night text-cream no-underline transition-colors hover:bg-raised hover:text-cream lg:block"
+        >
+          <div class="aspect-video overflow-hidden">
+            <img
+              src={img('boiler', 900)}
+              alt="Boiler and copper piping in a mechanical room"
+              class="h-full w-full object-cover"
+              style="object-position:50% 40%"
+            />
+          </div>
+          <div class="flex items-end justify-between gap-4 px-[22px] pt-5 pb-[22px]">
+            <div>
+              <span class="block text-[13px] font-semibold tracking-[0.18em] text-green-light uppercase">
+                Behind the walls
+              </span>
+              <span class="mt-1.5 block text-[19px] leading-[1.35]">
+                The finish is only as good as the work behind it.
+              </span>
+            </div>
+            <span class="text-[26px] leading-none text-green-light" aria-hidden="true">→</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- GREEN STRIP -->
+    <section class="bg-green text-ink">
+      <div
+        class="wrap flex flex-wrap justify-between gap-x-10 gap-y-2.5 py-[22px] text-[clamp(18px,1.5vw,22px)] font-medium"
+      >
+        <span>Plumbing and heating</span>
+        <span>Air-to-water heat pumps</span>
+        <span>HVAC</span>
+        <span>Gas fitting</span>
+        <span>Waterworks and splash parks</span>
+      </div>
+    </section>
+
+    <!-- FROM SLAB TO FAUCET: sticky scroll scene at 900px and up -->
+    <section class="bg-night">
+      <div id="stage" class="relative md:h-[300vh]">
+        <div
+          class="wrap relative grid items-center gap-x-[clamp(40px,6vw,104px)] gap-y-10 py-[clamp(48px,6vw,80px)] md:sticky md:top-[88px] md:h-[calc(100vh-88px)] md:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]"
+        >
+          <div class="flex flex-col gap-[clamp(24px,3vw,40px)]">
+            <span class="eyebrow text-green-light">How we work</span>
+            <h2 class="h-display">From slab <span class="accent">to faucet.</span></h2>
+            <div class="flex flex-col" data-nomotion>
+              {
+                STAGES.map((st, i) => (
+                  <button type="button" class="stage-item" data-stage={i} data-active={i === 0 ? '' : undefined}>
+                    <span class="block text-[clamp(26px,2.2vw,34px)] leading-[1.1] font-normal tracking-[-0.02em]">
+                      {st.title}
+                    </span>
+                    <span class="mt-2 block max-w-[30em] text-[18px] leading-[1.55] text-cream-3">{st.text}</span>
+                  </button>
+                ))
+              }
+            </div>
+          </div>
+          <div class="relative h-[110vw] overflow-hidden bg-raised md:h-[min(72vh,760px)]" data-nomotion>
+            {
+              STAGES.map((st, i) => (
+                <img
+                  src={st.img}
+                  alt={st.alt}
+                  loading="lazy"
+                  class="stage-img absolute inset-0 h-full w-full object-cover"
+                  data-stage-img={i}
+                  data-active={i === 0 ? '' : undefined}
+                />
+              ))
+            }
+            <div class="caption-tag px-4 py-[9px]" id="stage-caption">{STAGES[0].title}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT WE INSTALL: accordion -->
+    <section class="bg-stone text-night">
+      <div class="wrap py-[clamp(80px,10vw,150px)]">
+        <div
+          class="mb-[clamp(36px,4vw,64px)] grid items-end gap-x-24 gap-y-5"
+          style="grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr))"
+        >
+          <div class="flex flex-col gap-[22px]">
+            <span class="eyebrow text-green-text">Services</span>
+            <h2 class="h-display">What we install</h2>
+          </div>
+          <p class="m-0 max-w-[32em] text-[19px] text-ink-3">
+            Full mechanical for houses and low-rise commercial, plus waterworks for parks and public spaces. Hover a
+            line, or tap it on your phone.
+          </p>
+        </div>
+
+        <div class="border-b-2 border-night" data-nomotion id="accordion">
+          {
+            ROWS.map((r, i) => (
+              <div class="acc-row border-t-2 border-night" data-open={i === 0 ? '' : undefined}>
+                <button
+                  type="button"
+                  class="acc-head flex w-full cursor-pointer items-baseline justify-between gap-5 bg-transparent py-[clamp(20px,2.2vw,30px)] text-left text-night"
+                  aria-expanded={i === 0 ? 'true' : 'false'}
+                  aria-controls={`acc-panel-${i}`}
+                >
+                  <span class="acc-title text-[clamp(34px,4.2vw,72px)] leading-none tracking-[-0.035em]">{r.title}</span>
+                  <span class="text-[17px] font-medium whitespace-nowrap text-green-text">{r.tag}</span>
+                </button>
+                <div class="acc-panel" id={`acc-panel-${i}`} inert={i !== 0}>
+                  <div class="min-h-0 overflow-hidden">
+                    <div class="grid gap-x-[clamp(32px,4vw,72px)] gap-y-6 pb-[clamp(28px,3vw,44px)] sm:grid-cols-2">
+                      <div class="aspect-[16/10] overflow-hidden bg-stone-2">
+                        <img src={r.img} alt={r.title} loading="lazy" class="h-full w-full object-cover" />
+                      </div>
+                      <div class="flex flex-col justify-center gap-[18px]">
+                        <p class="m-0 text-[20px] leading-[1.55] text-ink-2">{r.text}</p>
+                        <div class="flex flex-wrap gap-2">
+                          {r.items.map((it) => (
+                            <span class="chip">{it}</span>
+                          ))}
+                        </div>
+                        <a href="/services" class="link-line text-night hover:text-green-text">
+                          More on our services
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- AIR-TO-WATER -->
+    <section class="bg-green text-ink">
+      <div class="wrap py-[clamp(80px,10vw,150px)]">
+        <div
+          class="grid items-start gap-x-24 gap-y-7"
+          style="grid-template-columns:repeat(auto-fit,minmax(min(100%,480px),1fr))"
+        >
+          <div class="flex flex-col gap-[22px]">
+            <span class="eyebrow text-ink">Efficient systems</span>
+            <h2 class="h-display text-[clamp(46px,5.6vw,100px)] leading-[0.94]">
+              Air-to-water, <span class="font-medium">our specialty.</span>
+            </h2>
+          </div>
+          <p class="m-0 text-[21px] leading-[1.55] text-ink">
+            An air-to-water heat pump draws heat from the outside air and moves it into water, giving you efficient,
+            high-performance heating sized to your space.
+          </p>
+        </div>
+        <div class="mt-[clamp(40px,5vw,72px)]">
+          <a href="/contact" class="btn btn-dark">Ask about air-to-water</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- BUILT FOR BUILDERS -->
+    <section class="bg-night">
+      <div class="mx-auto grid max-w-[1560px]" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,560px),1fr))">
+        <div class="relative min-h-[clamp(420px,50vw,760px)] overflow-hidden">
+          <img
+            src={img('view', 1600)}
+            alt="Custom home kitchen with a view"
+            loading="lazy"
+            class="absolute inset-0 h-full w-full object-cover"
+          />
+        </div>
+        <div class="flex flex-col justify-center gap-6 px-[clamp(20px,4vw,72px)] py-[clamp(56px,7vw,120px)]">
+          <span class="eyebrow text-green-light">The team</span>
+          <h2 class="h-display text-[clamp(44px,5vw,88px)]">Built for <span class="accent">builders.</span></h2>
+          <p class="m-0 text-[20px] text-cream-2">
+            Daniel has fourteen years of plumbing experience serving general contractors on the North Shore and beyond.
+            Jocelyn brings over ten years of commercial construction management to keep every project running smoothly.
+          </p>
+          <div class="mt-2 grid gap-x-8" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))">
+            <span class="border-t-2 border-line-3 py-3.5 text-[18px] font-medium">Pre-construction planning</span>
+            <span class="border-t-2 border-line-3 py-3.5 text-[18px] font-medium">Energy-efficient systems</span>
+            <span class="border-t-2 border-line-3 py-3.5 text-[18px] font-medium">Final commissioning</span>
+          </div>
+          <a href="/about" class="link-line text-cream hover:text-green-light">Meet the team</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- RECENT WORK -->
+    <section class="bg-stone text-night">
+      <div class="wrap py-[clamp(80px,10vw,150px)]">
+        <div class="mb-[clamp(32px,4vw,56px)] flex flex-wrap items-end justify-between gap-4">
+          <div class="flex flex-col gap-[22px]">
+            <span class="eyebrow text-green-text">Projects</span>
+            <h2 class="h-display">Recent work</h2>
+          </div>
+          <a href="/projects" class="link-line text-night hover:text-green-text">All projects</a>
+        </div>
+        <div class="masonry">
+          {
+            PREVIEW.map((g) => (
+              <figure class="bg-stone-2">
+                <img src={g.img} alt={g.label} loading="lazy" />
+                <figcaption class="caption-tag">{g.label}</figcaption>
+              </figure>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="relative overflow-hidden bg-deep">
+      <img
+        src={img('boiler', 1800)}
+        alt="Boiler, indirect tank and copper manifolds"
+        loading="lazy"
+        class="absolute inset-0 h-full w-full object-cover"
+        style="object-position:50% 40%"
+      />
+      <div class="absolute inset-0" style="background:rgba(10,12,10,0.8)"></div>
+      <div
+        class="wrap relative grid items-end gap-x-24 gap-y-8 py-[clamp(100px,13vw,200px)]"
+        style="grid-template-columns:repeat(auto-fit,minmax(min(100%,480px),1fr))"
+      >
+        <h2 class="m-0 text-[clamp(52px,6.6vw,120px)] leading-[0.92] font-extralight tracking-[-0.04em] text-white">
+          Send us <span class="accent">your drawings.</span>
+        </h2>
+        <div class="flex flex-col gap-[22px]">
+          <p class="m-0 text-[20px] text-cream-2">
+            Custom home, renovation or small commercial. Email the plans to <a
+              href={`mailto:${SITE.email}`}
+              class="font-semibold">{SITE.email}</a
+            > or use the quote form, and we’ll be in touch.
+          </p>
+          <div class="flex flex-wrap gap-2.5">
+            <a href="/contact" class="btn btn-green">Request a Quote</a>
+            <a href={SITE.phoneHref} class="btn btn-cream">Call Daniel</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>
+
+<style>
+  /* Hero fills the screen above 700px wide */
+  @media (min-width: 700px) {
+    .hero {
+      min-height: min(calc(100vh - 88px), 1000px);
+    }
+  }
+
+  /* Stage list: the active one is full strength with a green rule */
+  .stage-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    color: var(--color-cream);
+    cursor: pointer;
+    padding: 20px 0;
+    border: 0;
+    border-top: 2px solid var(--color-line-2);
+    opacity: 0.42;
+    transition:
+      opacity 0.5s,
+      border-color 0.5s;
+  }
+  .stage-item[data-active] {
+    opacity: 1;
+    border-top-color: var(--color-green);
+  }
+  .stage-img {
+    opacity: 0;
+    transform: scale(1.06);
+    transition:
+      opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 1.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .stage-img[data-active] {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Accordion: open row grows from 0 to full height */
+  .acc-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .acc-row[data-open] .acc-panel {
+    grid-template-rows: 1fr;
+  }
+  .acc-title {
+    font-weight: 200;
+    transition: font-weight 0.4s;
+  }
+  .acc-row[data-open] .acc-title {
+    font-weight: 400;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stage-img,
+    .acc-panel,
+    .acc-title {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // ----- From slab to faucet -----
+  const stage = document.getElementById('stage');
+  const items = [...document.querySelectorAll<HTMLButtonElement>('.stage-item')];
+  const imgs = [...document.querySelectorAll<HTMLImageElement>('.stage-img')];
+  const caption = document.getElementById('stage-caption');
+  const sticky = matchMedia('(min-width: 900px)');
+  let current = 0;
+
+  function setStage(i: number) {
+    if (i === current) return;
+    current = i;
+    items.forEach((el, k) => el.toggleAttribute('data-active', k === i));
+    imgs.forEach((el, k) => el.toggleAttribute('data-active', k === i));
+    if (caption) caption.textContent = items[i]?.querySelector('span')?.textContent ?? '';
+  }
+
+  // On wide screens, scroll position picks the stage.
+  function onScroll() {
+    if (!stage || !sticky.matches) return;
+    const r = stage.getBoundingClientRect();
+    const span = r.height - window.innerHeight;
+    const p = Math.max(0, Math.min(0.999, -r.top / Math.max(1, span)));
+    setStage(Math.floor(p * items.length));
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Clicking a stage scrolls to it (wide) or just shows it (narrow).
+  items.forEach((el, i) =>
+    el.addEventListener('click', () => {
+      if (sticky.matches && stage) {
+        const top = stage.getBoundingClientRect().top + window.scrollY;
+        const span = stage.offsetHeight - window.innerHeight;
+        const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.scrollTo({ top: top + (span * (i + 0.5)) / items.length, behavior: smooth ? 'smooth' : 'auto' });
+      } else {
+        setStage(i);
+      }
+    }),
+  );
+
+  // ----- What we install -----
+  const rows = [...document.querySelectorAll<HTMLElement>('.acc-row')];
+  const canHover = matchMedia('(hover: hover) and (pointer: fine)');
+
+  function openRow(row: HTMLElement) {
+    rows.forEach((r) => {
+      const open = r === row;
+      r.toggleAttribute('data-open', open);
+      r.querySelector('.acc-head')?.setAttribute('aria-expanded', String(open));
+      const panel = r.querySelector<HTMLElement>('.acc-panel');
+      if (panel) panel.inert = !open;
+    });
+  }
+  rows.forEach((row) => {
+    row.querySelector('.acc-head')?.addEventListener('click', () => openRow(row));
+    row.addEventListener('mouseenter', () => {
+      if (canHover.matches) openRow(row);
+    });
+  });
+</script>

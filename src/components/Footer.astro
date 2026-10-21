@@ -1,0 +1,45 @@
+---
+import Logo from './Logo.astro';
+import { NAV, SITE } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t-[6px] border-green bg-deep">
+  <div
+    class="wrap grid gap-10 pt-[clamp(56px,6vw,88px)] pb-8 text-[17px]"
+    style="grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))"
+  >
+    <div class="flex flex-col gap-4">
+      <Logo width={150} height={77} />
+      <p class="m-0 text-cream-3">Mechanical and waterworks contractor. North Vancouver, BC.</p>
+    </div>
+    <div class="flex flex-col gap-2">
+      <span class="font-semibold text-green-light">Services</span>
+      <span>Plumbing and heating</span>
+      <span>Air-to-water and HVAC</span>
+      <span>Gas fitting</span>
+      <span>Waterworks and splash parks</span>
+    </div>
+    <div class="flex flex-col gap-2">
+      <span class="font-semibold text-green-light">Contact</span>
+      <a href={SITE.phoneHref} class="text-cream no-underline hover:text-green-light">{SITE.phone}</a>
+      <a href={`mailto:${SITE.email}`} class="text-cream no-underline hover:text-green-light">{SITE.email}</a>
+      <span>{SITE.street}<br />{SITE.city}, {SITE.region}</span>
+    </div>
+    <div class="flex flex-col gap-2">
+      <span class="font-semibold text-green-light">Pages</span>
+      {NAV.map((n) => <a href={n.href} class="text-cream no-underline hover:text-green-light">{n.label}</a>)}
+    </div>
+  </div>
+  <div class="wrap border-t border-line pt-5 pb-9 text-[15px] text-[#B9BEB4]">
+    © {year} {SITE.name}
+  </div>
+</footer>
+
+<!-- Sticky Call / Quote bar for screens under 1140px -->
+<div class="fixed inset-x-0 bottom-0 z-[60] grid grid-cols-2 border-t border-line bg-night xl:hidden">
+  <a href={SITE.phoneHref} class="px-2.5 py-[18px] text-center text-[18px] font-semibold text-cream no-underline">Call</a>
+  <a href="/contact" class="bg-green px-2.5 py-[18px] text-center text-[18px] font-semibold text-ink no-underline hover:text-ink">
+    Request a Quote
+  </a>
+</div>

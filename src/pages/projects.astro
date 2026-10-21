@@ -1,0 +1,77 @@
+---
+import Base from '../layouts/Base.astro';
+import { WORK } from '../data/content';
+
+const FILTERS = ['All', 'Homes', 'Mechanical', 'Waterworks'];
+---
+
+<Base
+  title="Projects | Custom homes, mechanical rooms and waterworks | Ecologik"
+  description="Recent work by Ecologik: bathrooms and kitchens in custom homes, mechanical rooms, rough-in and waterworks across the North Shore and BC."
+>
+  <main>
+    <section class="bg-night">
+      <div class="wrap pt-[clamp(64px,8vw,128px)] pb-9">
+        <h1 class="h-page mb-7">Projects</h1>
+        <div class="flex flex-wrap gap-2" role="group" aria-label="Filter projects" data-nomotion>
+          {
+            FILTERS.map((f, i) => (
+              <button type="button" class="filter-btn" data-filter={f} aria-pressed={i === 0 ? 'true' : 'false'}>
+                {f}
+              </button>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+    <section class="wrap pb-[clamp(80px,10vw,140px)]">
+      <div class="masonry" id="work">
+        {
+          WORK.map((g) => (
+            <figure class="bg-raised" data-cat={g.cat}>
+              <img src={g.img} alt={g.label} loading="lazy" />
+              <figcaption class="caption-tag">{g.label}</figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</Base>
+
+<style>
+  .filter-btn {
+    background: transparent;
+    color: var(--color-cream);
+    border: 2px solid var(--color-line-3);
+    font-size: 17px;
+    font-weight: 500;
+    padding: 11px 20px;
+    cursor: pointer;
+  }
+  .filter-btn[aria-pressed='true'] {
+    background: var(--color-green);
+    color: var(--color-ink);
+    border-color: var(--color-green);
+  }
+</style>
+
+<script>
+  const buttons = [...document.querySelectorAll<HTMLButtonElement>('.filter-btn')];
+  const figures = [...document.querySelectorAll<HTMLElement>('#work figure')];
+  buttons.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const f = btn.dataset.filter;
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      figures.forEach((fig) => {
+        const show = f === 'All' || fig.dataset.cat === f;
+        fig.hidden = !show;
+        // Make sure newly shown photos aren't stuck waiting for the scroll reveal.
+        if (show) {
+          fig.style.opacity = '1';
+          fig.style.transform = 'none';
+        }
+      });
+    }),
+  );
+</script>

@@ -1,0 +1,31 @@
+---
+// The Wix logo PNG, shown with a white wordmark and a green leaf.
+// A second copy is clipped to the leaf so the leaf stays green.
+// Better long-term: ask the client for an SVG logo and swap it in here.
+interface Props {
+  width: number;
+  height: number;
+}
+const { width, height } = Astro.props;
+const src = '/images/logo.png';
+---
+
+<span class="relative block flex-none" style={`width:${width}px;height:${height}px`}>
+  <img
+    src={src}
+    alt="ecologik"
+    width={width}
+    height={height}
+    class="absolute inset-0 h-full w-full object-contain"
+    style="filter:brightness(0) invert(1)"
+  />
+  <img
+    src={src}
+    alt=""
+    aria-hidden="true"
+    width={width}
+    height={height}
+    class="absolute inset-0 h-full w-full object-contain"
+    style="clip-path:inset(0 12% 40% 62%)"
+  />
+</span>

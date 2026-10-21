@@ -1,0 +1,80 @@
+---
+import Base from '../layouts/Base.astro';
+import { GROUPS } from '../data/content';
+
+// Colours for the two service groups.
+const THEMES = {
+  dark: { section: 'bg-night text-cream', sub: 'text-cream-3', chipLine: '#3A403A', imgBg: 'bg-[#2A2F2A]' },
+  stone: { section: 'bg-stone text-night', sub: 'text-ink-3', chipLine: '#111411', imgBg: 'bg-stone-2' },
+};
+---
+
+<Base
+  title="Services | Plumbing, heating, HVAC, gas fitting and waterworks | Ecologik"
+  description="Mechanical for custom homes, renovations and low-rise commercial: plumbing, heating, HVAC, air-to-water and gas fitting. Waterworks for parks, splash pads and public washrooms across BC."
+>
+  <main>
+    <section class="bg-night">
+      <div
+        class="wrap grid items-end gap-x-24 gap-y-6 pt-[clamp(64px,8vw,128px)] pb-[clamp(48px,5vw,72px)]"
+        style="grid-template-columns:repeat(auto-fit,minmax(min(100%,480px),1fr))"
+      >
+        <h1 class="h-page">Services</h1>
+        <p class="m-0 text-[20px] text-cream-2">
+          Two divisions. Mechanical for custom homes, renovations and low-rise commercial. Waterworks for parks, splash
+          pads and public facilities across British Columbia.
+        </p>
+      </div>
+    </section>
+
+    {
+      GROUPS.map((grp) => {
+        const t = THEMES[grp.theme];
+        return (
+          <section class={t.section}>
+            <div class="wrap py-[clamp(64px,8vw,120px)]">
+              <h2 class="h-display mb-[clamp(32px,4vw,56px)]">{grp.title}</h2>
+              <div class="flex flex-col gap-[clamp(48px,6vw,88px)]">
+                {grp.items.map((sv, i) => (
+                  <div class="grid items-center gap-x-[clamp(40px,5vw,88px)] gap-y-7 sm:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+                    <div class:list={['aspect-[4/3] overflow-hidden', t.imgBg, i % 2 ? 'sm:order-2' : '']}>
+                      <img src={sv.img} alt={sv.title} loading="lazy" class="h-full w-full object-cover" />
+                    </div>
+                    <div class="flex flex-col gap-[18px]">
+                      <h3 class="m-0 text-[clamp(34px,3.4vw,56px)] leading-none font-light tracking-[-0.03em]">
+                        {sv.title}
+                      </h3>
+                      <p class:list={['m-0 text-[19px] leading-[1.6]', t.sub]}>{sv.text}</p>
+                      <div class="flex flex-wrap gap-2">
+                        {sv.tags.map((tag) => (
+                          <span class="chip" style={`--chip-line:${t.chipLine}`}>
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      })
+    }
+
+    <section class="bg-green text-ink">
+      <div
+        class="wrap grid items-center gap-x-24 gap-y-6 py-[clamp(56px,7vw,96px)]"
+        style="grid-template-columns:repeat(auto-fit,minmax(min(100%,480px),1fr))"
+      >
+        <h2 class="h-display text-[clamp(40px,4.6vw,80px)]">Landscape, <span class="font-medium">too.</span></h2>
+        <div class="flex flex-col items-start gap-[18px]">
+          <p class="m-0 text-[20px]">
+            Ecologik also offers landscape installation and maintenance. Ask us about it with your next project.
+          </p>
+          <a href="/contact" class="btn btn-dark px-7 py-[18px]">Ask about landscape work</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>

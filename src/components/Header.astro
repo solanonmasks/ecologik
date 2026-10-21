@@ -1,0 +1,84 @@
+---
+import Logo from './Logo.astro';
+import { NAV, SITE } from '../data/site';
+
+// Highlight the menu item for the current page.
+const path = Astro.url.pathname.replace(/\/$/, '');
+---
+
+<header
+  class="sticky top-0 z-50 border-b border-line backdrop-blur-[10px]"
+  style="background:rgba(17,20,17,0.94)"
+>
+  <div class="wrap flex h-[88px] items-center justify-between gap-6">
+    <a href="/" aria-label="Ecologik home"><Logo width={104} height={53} /></a>
+
+    <nav class="hidden items-center gap-9 text-[17px] font-medium xl:flex" aria-label="Main">
+      {
+        NAV.map((n) => (
+          <a
+            href={n.href}
+            class:list={[
+              'no-underline hover:text-green-light',
+              path === n.href ? 'text-green-light' : 'text-cream',
+            ]}
+            aria-current={path === n.href ? 'page' : undefined}
+          >
+            {n.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <a
+        href={SITE.phoneHref}
+        class="hidden px-2.5 text-[18px] font-semibold whitespace-nowrap text-cream no-underline hover:text-green-light xl:inline"
+      >
+        {SITE.phone}
+      </a>
+      <!-- Hidden on small phones: the sticky bottom bar has this button too -->
+      <a href="/contact" class="btn btn-green hidden px-[22px] py-[14px] text-[17px] min-[480px]:inline-block">Request a Quote</a>
+      <button
+        type="button"
+        id="menu-toggle"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        class="cursor-pointer border-2 border-line-3 bg-transparent px-4 py-3 text-[16px] font-semibold text-cream xl:hidden"
+      >
+        Menu
+      </button>
+    </div>
+  </div>
+
+  <!-- Menu panel for screens under 1140px -->
+  <div id="mobile-menu" hidden class="border-t border-line bg-night xl:hidden">
+    <div class="wrap flex flex-col pt-4 pb-8">
+      {
+        NAV.map((n) => (
+          <a
+            href={n.href}
+            class="border-b border-line py-3 text-[34px] font-light text-cream no-underline hover:text-green-light"
+          >
+            {n.label}
+          </a>
+        ))
+      }
+      <a href={SITE.phoneHref} class="pt-5 text-[22px] font-semibold text-green-light no-underline">
+        {SITE.phone}
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  btn?.addEventListener('click', () => {
+    if (!menu) return;
+    const open = menu.hidden;
+    menu.hidden = !open;
+    btn.setAttribute('aria-expanded', String(open));
+    btn.textContent = open ? 'Close' : 'Menu';
+  });
+</script>

@@ -1,0 +1,169 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, FORMSPREE_ID } from '../data/site';
+import { img } from '../data/images';
+
+const endpoint = FORMSPREE_ID ? `https://formspree.io/f/${FORMSPREE_ID}` : '';
+---
+
+<Base
+  title="Request a Quote | Send your drawings | Ecologik"
+  description="Request a quote from Ecologik. Send drawings or photos for your custom home, renovation, small commercial or waterworks project. Call Daniel at 778-855-6843."
+>
+  <main>
+    <section class="wrap py-[clamp(56px,7vw,112px)]">
+      <h1
+        class="m-0 mb-[clamp(36px,4vw,64px)] text-[clamp(56px,7.4vw,132px)] leading-[0.92] font-extralight tracking-[-0.04em]"
+      >
+        Request <span class="accent">a quote.</span>
+      </h1>
+
+      <div class="grid items-start gap-x-[clamp(40px,5vw,88px)] gap-y-10 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
+        <div>
+          <form
+            id="quote-form"
+            action={endpoint || undefined}
+            method="POST"
+            enctype="multipart/form-data"
+            class="grid gap-5"
+            style="grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))"
+          >
+            <input type="hidden" name="_subject" value="New quote request from ecologik.ca" />
+            <!-- Spam trap: real people never fill this in -->
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+
+            <label class="field">Name *<input name="name" required autocomplete="name" /></label>
+            <label class="field">Company<input name="company" autocomplete="organization" /></label>
+            <label class="field">Phone *<input name="phone" type="tel" required autocomplete="tel" /></label>
+            <label class="field">Email *<input name="email" type="email" required autocomplete="email" /></label>
+            <label class="field"
+              >I’m a
+              <select name="client_type">
+                <option>Homeowner</option>
+                <option>General contractor or builder</option>
+                <option>Architect or designer</option>
+                <option>Municipality or commercial client</option>
+              </select>
+            </label>
+            <label class="field"
+              >Project type
+              <select name="project_type">
+                <option>Custom home</option>
+                <option>Renovation</option>
+                <option>Small commercial</option>
+                <option>Air-to-water or HVAC upgrade</option>
+                <option>Waterworks or splash park</option>
+                <option>Service or repair</option>
+              </select>
+            </label>
+            <label class="field">Project location<input name="location" placeholder="e.g. North Vancouver" /></label>
+            <label class="field"
+              >When do you need us?
+              <select name="timing">
+                <option>Within a month</option>
+                <option>1 to 3 months</option>
+                <option>3 to 6 months</option>
+                <option>Still in design</option>
+              </select>
+            </label>
+            <label class="field col-span-full"
+              >Tell us about the project<textarea name="message" rows="5" class="resize-y"></textarea>
+            </label>
+            <label class="field col-span-full"
+              >Drawings or photos
+              <input
+                name="attachments"
+                type="file"
+                multiple
+                accept=".pdf,image/*"
+                class="border-dashed py-[18px] text-[16px] text-cream-3"
+              />
+            </label>
+
+            <p id="form-error" hidden class="col-span-full m-0 border-l-4 border-[#E07A5F] pl-4 text-[18px] text-cream-2">
+            </p>
+
+            <button
+              type="submit"
+              class="col-span-full cursor-pointer justify-self-start border-0 bg-green px-9 py-5 text-[19px] font-semibold text-ink transition-colors hover:bg-green-light disabled:cursor-wait disabled:opacity-60"
+            >
+              Send Request
+            </button>
+          </form>
+
+          <div id="form-thanks" hidden class="flex flex-col gap-3.5 border-t-[3px] border-green pt-7">
+            <h2 class="m-0 text-[clamp(40px,4vw,64px)] leading-none font-light tracking-[-0.035em]">
+              Thanks. We’ve got it.
+            </h2>
+            <p class="m-0 text-[20px] text-cream-2">We’ll be in contact soon. If it’s urgent, call {SITE.phone}.</p>
+          </div>
+        </div>
+
+        <aside class="flex flex-col gap-[26px] bg-stone p-[clamp(28px,3vw,44px)] text-night">
+          <div>
+            <span class="block text-[16px] font-semibold text-green-text">Call Daniel</span>
+            <a
+              href={SITE.phoneHref}
+              class="text-[clamp(34px,3vw,46px)] font-light tracking-[-0.03em] text-night no-underline hover:text-green-text"
+              >{SITE.phone}</a
+            >
+          </div>
+          <div>
+            <span class="block text-[16px] font-semibold text-green-text">Email drawings</span>
+            <a href={`mailto:${SITE.email}`} class="text-[22px] font-medium text-night hover:text-green-text"
+              >{SITE.email}</a
+            >
+          </div>
+          <div>
+            <span class="block text-[16px] font-semibold text-green-text">Office</span>
+            <span class="text-[20px]">{SITE.street}<br />{SITE.city}, {SITE.region}</span>
+          </div>
+          <div class="aspect-[16/10] overflow-hidden">
+            <img src={img('hex', 1200)} alt="Bathroom with hex tile" loading="lazy" class="h-full w-full object-cover" />
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+</Base>
+
+<script define:vars={{ phone: SITE.phone, email: SITE.email }}>
+  const form = document.getElementById('quote-form');
+  const thanks = document.getElementById('form-thanks');
+  const error = document.getElementById('form-error');
+
+  function showError(msg) {
+    error.textContent = msg;
+    error.hidden = false;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    error.hidden = true;
+
+    // The form isn't connected to a handler yet (see FORMSPREE_ID in src/data/site.ts).
+    if (!form.getAttribute("action")) {
+      showError(`Our online form isn’t set up yet. Please call ${phone} or email ${email}.`);
+      return;
+    }
+
+    const button = form.querySelector('button[type="submit"]');
+    button.disabled = true;
+    button.textContent = 'Sending…';
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      form.hidden = true;
+      thanks.hidden = false;
+      window.scrollTo(0, 0);
+    } catch {
+      showError(`Sorry, that didn’t send. Please try again, or call ${phone} or email ${email}.`);
+      button.disabled = false;
+      button.textContent = 'Send Request';
+    }
+  });
+</script>
