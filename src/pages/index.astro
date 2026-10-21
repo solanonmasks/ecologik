@@ -86,9 +86,9 @@ import { STAGES, ROWS, PREVIEW } from '../data/content';
 
     <!-- FROM SLAB TO FAUCET: sticky scroll scene at 900px and up -->
     <section class="bg-night">
-      <div id="stage" class="relative md:h-[300vh]">
+      <div id="stage" class="relative stage:h-[300vh]">
         <div
-          class="wrap relative grid items-center gap-x-[clamp(40px,6vw,104px)] gap-y-10 py-[clamp(48px,6vw,80px)] md:sticky md:top-[88px] md:h-[calc(100vh-88px)] md:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]"
+          class="wrap relative grid items-center gap-x-[clamp(40px,6vw,104px)] gap-y-10 py-[clamp(48px,6vw,80px)] stage:sticky stage:top-[88px] stage:h-[calc(100vh-88px)] stage:py-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]"
         >
           <div class="flex flex-col gap-[clamp(24px,3vw,40px)]">
             <span class="eyebrow text-green-light">How we work</span>
@@ -106,7 +106,7 @@ import { STAGES, ROWS, PREVIEW } from '../data/content';
               }
             </div>
           </div>
-          <div class="relative h-[110vw] overflow-hidden bg-raised md:h-[min(72vh,760px)]" data-nomotion>
+          <div class="relative h-[110vw] overflow-hidden bg-raised md:h-[min(72vh,760px)] stage:h-[min(760px,calc(100vh-136px))]" data-nomotion>
             {
               STAGES.map((st, i) => (
                 <img
@@ -310,7 +310,7 @@ import { STAGES, ROWS, PREVIEW } from '../data/content';
     padding: 20px 0;
     border: 0;
     border-top: 2px solid var(--color-line-2);
-    opacity: 0.42;
+    opacity: 0.6;
     transition:
       opacity 0.5s,
       border-color 0.5s;
@@ -363,7 +363,8 @@ import { STAGES, ROWS, PREVIEW } from '../data/content';
   const items = [...document.querySelectorAll<HTMLButtonElement>('.stage-item')];
   const imgs = [...document.querySelectorAll<HTMLImageElement>('.stage-img')];
   const caption = document.getElementById('stage-caption');
-  const sticky = matchMedia('(min-width: 900px)');
+  // Must match the `stage` variant in global.css.
+  const sticky = matchMedia('(min-width: 900px) and (min-height: 820px)');
   let current = 0;
 
   function setStage(i: number) {

@@ -39,6 +39,10 @@
   --color-ink-3: #3a413a;
 }
 
+/* Sticky "From slab to faucet" scroll scene: only on screens wide AND tall
+   enough to fit the whole panel. Otherwise it overlaps the next section. */
+@custom-variant stage (@media (min-width: 900px) and (min-height: 820px));
+
 /* ------------------------------------------------------------------
    Base
    ------------------------------------------------------------------ */
